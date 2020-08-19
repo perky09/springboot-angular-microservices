@@ -1,0 +1,39 @@
+package com.user.controller;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.netflix.discovery.DiscoveryClient;
+import com.user.intercomm.UserClient;
+import com.user.service.CourseService;
+
+@RestController
+public class CourseController {
+	
+    @Autowired
+    private UserClient userClient;
+
+    @Autowired
+    private CourseService courseService;
+
+    @Autowired
+    private DiscoveryClient discoveryClient;
+
+    @Autowired
+    private Environment env;
+    
+    @GetMapping("/service/user/{userId}")
+    public ResponseEntity<?> findTransactionsOfUser(@PathVariable Long userId){
+        return ResponseEntity.ok(courseService.findTransactionsOfUser(userId));
+    }
+    
+    @GetMapping("/service/all")
+    public ResponseEntity<?> findAllCourses(){
+        return ResponseEntity.ok(courseService.allCourses());
+    }
+
+}
